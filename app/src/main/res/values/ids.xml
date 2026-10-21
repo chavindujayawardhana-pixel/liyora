@@ -1,0 +1,4 @@
+<resources>
+    <!-- Layout weight of a key in its row, set in code by KeyboardView. -->
+    <item name="key_weight" type="id" />
+</resources>
