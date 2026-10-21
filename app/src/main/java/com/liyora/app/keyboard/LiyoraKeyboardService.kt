@@ -169,7 +169,7 @@ class LiyoraKeyboardService : InputMethodService(), KeyboardView.Actions {
                 return@launch
             }
             if (text.isEmpty()) {
-                show(PanelState.Message("The text box is empty. Type some Sinhala or Singlish first."))
+                show(PanelState.Message("The text box is empty. Type something first."))
                 return@launch
             }
             // Picks a key that has not reached its limit, and moves to the next key on a quota error.

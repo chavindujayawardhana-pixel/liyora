@@ -143,7 +143,7 @@ fun HomeScreen(
                 SetupStep(
                     number = 4,
                     title = "Try typing",
-                    detail = "Type some Singlish, tap the red λ key, then tap Apply.",
+                    detail = "Type something, tap the red λ key, then tap Apply.",
                     done = keyboardSelected && tryText.isNotBlank(),
                 ) {
                     OutlinedTextField(
@@ -159,7 +159,7 @@ fun HomeScreen(
             Spacer(Modifier.height(20.dp))
             Text("How to use", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.height(4.dp))
-            NumberedStep(1, "In any app, type your message in Sinhala or Singlish with the Liyora keyboard.")
+            NumberedStep(1, "In any app, type your message with the Liyora keyboard.")
             NumberedStep(2, "Tap the red λ key. Liyora shows the English translation above the keys.")
             NumberedStep(3, "Tap Apply to replace your text, or Dismiss to keep it. Then send as usual.")
             NumberedStep(4, "Tap the globe key to go back to your other keyboard.")

@@ -65,7 +65,7 @@ fun TranslateScreen(
         OutlinedTextField(
             value = input,
             onValueChange = { input = it; error = null },
-            label = { Text("Sinhala or Singlish") },
+            label = { Text("Your text") },
             placeholder = { Text("e.g. mama heta enawa") },
             minLines = 4,
             modifier = Modifier.fillMaxWidth().heightIn(min = 120.dp),
