@@ -11,6 +11,8 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - [x] STEP 3 – Setup screens (4 steps with green ticks, re-check on resume, try-typing field)
 - [x] STEP 4 – Privacy screen + PRIVACY.md, versionName 1.1.0 / versionCode 2
 - [ ] STEP 5 – Build debug + signed release APK, install with adb
+  - [x] Debug APK and signed release APK built (apksigner verifies, v2, CN=Liyora)
+  - [ ] Install on phone with adb install -r (BLOCKED: adb devices showed no device)
 
 ## Log
 - STEP 0 done. Next: STEP 1 (remove Accessibility).
@@ -18,3 +20,4 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - STEP 2 done: LiyoraKeyboardService + KeyboardView (QWERTY, shift/caps, repeat backspace, ?123, globe, λ) + TranslatePanel (Apply/Dismiss), password check, messages; debug build passes. Next: STEP 3 (setup screens).
 - STEP 3 done: Home shows 4 setup steps with green ticks (key, keyboard on, keyboard chosen, try typing); re-checked on resume and window focus. Next: STEP 4 (privacy text + version 1.1.0/2).
 - STEP 4 done: Privacy screen + PRIVACY.md rewritten for the keyboard (no Accessibility wording, no email); versionName 1.1.0, versionCode 2; SPEC.md marked as 1.0.0. Next: STEP 5 (debug + signed release build, adb install).
+- STEP 5 partly done: both APKs built, release signed and verified. adb found no device, so the install is not done. Next: connect the phone (USB debugging on) and run adb install -r app/build/outputs/apk/release/app-release.apk.
