@@ -20,6 +20,7 @@ import com.liyora.app.data.GeminiClient
 import com.liyora.app.data.GeminiError
 import com.liyora.app.data.GeminiResult
 import com.liyora.app.data.KeyStore
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -162,19 +163,30 @@ class LiyoraKeyboardService : InputMethodService(), KeyboardView.Actions {
         translateJob?.cancel()
         show(PanelState.Loading)
         translateJob = scope.launch {
-            val apiKey = withContext(Dispatchers.IO) { runCatching { keyStore.getKey() }.getOrNull() }
-            if (apiKey == null) {
-                show(PanelState.Message("Add your Gemini key in the Liyora app first.", offerOpenApp = true))
+            val hasKey = withContext(Dispatchers.IO) { runCatching { keyStore.hasKey() }.getOrDefault(false) }
+            if (!hasKey) {
+                show(PanelState.Message(GeminiError.NO_KEY.message, offerOpenApp = true))
                 return@launch
             }
             if (text.isEmpty()) {
                 show(PanelState.Message("The text box is empty. Type some Sinhala or Singlish first."))
                 return@launch
             }
-            when (val result = gemini.translate(apiKey, text)) {
+            // Picks a key that has not reached its limit, and moves to the next key on a quota error.
+            val result = try {
+                gemini.translate(keyStore, text)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                GeminiResult.Failure(GeminiError.UNKNOWN)
+            }
+            when (result) {
                 is GeminiResult.Success -> show(PanelState.Result(result.text))
                 is GeminiResult.Failure -> show(
-                    PanelState.Message(result.error.message, offerOpenApp = result.error == GeminiError.INVALID_KEY),
+                    PanelState.Message(
+                        result.error.message,
+                        offerOpenApp = result.error == GeminiError.INVALID_KEY || result.error == GeminiError.NO_KEY,
+                    ),
                 )
             }
         }

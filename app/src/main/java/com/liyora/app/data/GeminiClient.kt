@@ -46,6 +46,9 @@ enum class GeminiError(val message: String, val isNotice: Boolean = false) {
     NO_INTERNET("No internet connection. Check your Wi-Fi or mobile data and try again."),
     INVALID_KEY("This key doesn't work. Check that you copied the whole key from Google AI Studio."),
     DAILY_LIMIT("Today's free limit is used up. Please try again tomorrow."),
+    ALL_KEYS_LIMIT("All keys have reached their limit. Try again later."),
+    NEXT_KEY_LIMIT("This key has reached its limit too. Tap λ again to try your next key."),
+    NO_KEY("Add your Gemini key in the Liyora app first."),
     BLOCKED("Gemini could not translate this text. Try rewording it.", isNotice = true),
     SERVER("Gemini is having trouble right now. Please try again in a moment."),
     UNKNOWN("Something went wrong. Please try again."),
@@ -56,8 +59,30 @@ class GeminiClient(private val context: Context) {
     /** Sends one tiny request to confirm the key is accepted. */
     suspend fun testKey(apiKey: String): GeminiResult = generate(apiKey, "Reply with the single word: OK")
 
-    suspend fun translate(apiKey: String, text: String): GeminiResult =
-        generate(apiKey, TRANSLATE_PROMPT + text)
+    /**
+     * Translates with the first saved key that has not reached its limit. If Gemini says that key's
+     * quota is used up, the key is marked until midnight Pacific time and the request is retried
+     * once with the next free key. Other errors are returned as they are, without trying another key.
+     */
+    suspend fun translate(keyStore: KeyStore, text: String): GeminiResult = withContext(Dispatchers.IO) {
+        if (!keyStore.hasKey()) return@withContext GeminiResult.Failure(GeminiError.NO_KEY)
+        val first = keyStore.availableKeys().firstOrNull()
+            ?: return@withContext GeminiResult.Failure(GeminiError.ALL_KEYS_LIMIT)
+        val result = generate(first.key, TRANSLATE_PROMPT + text)
+        if (!result.isQuotaError()) return@withContext result
+
+        keyStore.markExhausted(first.id)
+        val next = keyStore.availableKeys().firstOrNull()
+            ?: return@withContext GeminiResult.Failure(GeminiError.ALL_KEYS_LIMIT)
+        val retry = generate(next.key, TRANSLATE_PROMPT + text)
+        if (!retry.isQuotaError()) return@withContext retry
+
+        keyStore.markExhausted(next.id)
+        val error = if (keyStore.availableKeys().isEmpty()) GeminiError.ALL_KEYS_LIMIT else GeminiError.NEXT_KEY_LIMIT
+        GeminiResult.Failure(error)
+    }
+
+    private fun GeminiResult.isQuotaError() = this is GeminiResult.Failure && error == GeminiError.DAILY_LIMIT
 
     private suspend fun generate(apiKey: String, prompt: String): GeminiResult = withContext(Dispatchers.IO) {
         if (!isOnline()) return@withContext GeminiResult.Failure(GeminiError.NO_INTERNET)
@@ -110,7 +135,8 @@ class GeminiClient(private val context: Context) {
     }
 
     private fun mapError(code: Int, response: String): GeminiError = when {
-        code == 429 -> GeminiError.DAILY_LIMIT
+        // 429 is Gemini's quota / rate limit error (status RESOURCE_EXHAUSTED).
+        code == 429 || response.contains("RESOURCE_EXHAUSTED") -> GeminiError.DAILY_LIMIT
         code == 401 || code == 403 -> GeminiError.INVALID_KEY
         code == 400 && (response.contains("API_KEY_INVALID") || response.contains("API key not valid")) ->
             GeminiError.INVALID_KEY

@@ -20,18 +20,19 @@ private val PRIVACY_SECTIONS = listOf(
         "Liyora reads the whole text in the text box only when you tap the red λ key. It never reads or " +
         "translates password fields.",
     "Where your text goes" to
-        "When you tap λ, the text in the text box is sent to Google Gemini, using your own Gemini API key, to " +
-        "get the English translation. The same happens when you tap Translate inside the Liyora app. Nothing is " +
-        "sent at any other time. Liyora has no server of its own.",
+        "When you tap λ, the text in the text box is sent to Google Gemini, using one of your own Gemini API " +
+        "keys, to get the English translation. The same happens when you tap Translate inside the Liyora " +
+        "app. Nothing is sent at any other time. Liyora has no server of its own.",
     "What Liyora stores" to
         "Nothing you type is stored. Liyora does not save, log, or share your text or the translations. The " +
         "English text is kept in memory only until you tap Apply or Dismiss.",
     "Free and paid Gemini keys" to
         "If you use a free Gemini key, Google may use the text you send to improve its products, so avoid " +
         "translating private or sensitive text. Paid keys follow Google's paid terms.",
-    "Your API key" to
-        "Your Gemini API key is stored encrypted on your phone only, and is excluded from backups. It is sent " +
-        "only to Google Gemini, with each translation request.",
+    "Your API keys" to
+        "Your Gemini API keys are stored encrypted on your phone only, and are excluded from backups. A key is " +
+        "sent only to Google Gemini, with a translation request. If a key reaches its daily limit, Liyora notes " +
+        "that on your phone and uses your next saved key.",
     "No ads, analytics, or accounts" to
         "Liyora has no ads, no analytics, and no accounts. You can remove your key in the app, switch to " +
         "another keyboard, or uninstall Liyora at any time.",

@@ -21,3 +21,10 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - STEP 3 done: Home shows 4 setup steps with green ticks (key, keyboard on, keyboard chosen, try typing); re-checked on resume and window focus. Next: STEP 4 (privacy text + version 1.1.0/2).
 - STEP 4 done: Privacy screen + PRIVACY.md rewritten for the keyboard (no Accessibility wording, no email); versionName 1.1.0, versionCode 2; SPEC.md marked as 1.0.0. Next: STEP 5 (debug + signed release build, adb install).
 - STEP 5 partly done: both APKs built, release signed and verified. adb found no device, so the install is not done. Next: connect the phone (USB debugging on) and run adb install -r app/build/outputs/apk/release/app-release.apk.
+
+## Follow-up: wording + multiple Gemini keys
+- [x] "Singlish to English" wording changed to "To English" (panel chip, Home subtitle, Privacy intro, PRIVACY.md)
+- [x] Multiple keys: KeyStore holds a list (encrypted, old single key migrated), add/remove/test with masked keys
+- [x] Quota error (HTTP 429 / RESOURCE_EXHAUSTED) marks the key until next midnight Pacific time and retries once with the next free key; all used up -> "All keys have reached their limit. Try again later."
+- [x] Key screen note about keys from the same Google project sharing one limit; Privacy updated
+- [ ] Signed release built and installed with adb

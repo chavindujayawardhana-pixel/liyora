@@ -8,6 +8,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,10 +44,10 @@ class MainActivity : ComponentActivity() {
                 val keyStore = remember { KeyStore(context) }
                 val gemini = remember { GeminiClient(context) }
                 var screen by rememberSaveable { mutableStateOf(Screen.Home) }
-                var hasKey by remember { mutableStateOf(keyStore.hasKey()) }
+                var keyCount by remember { mutableIntStateOf(keyStore.keys().size) }
 
                 LifecycleResumeEffect(Unit) {
-                    hasKey = keyStore.hasKey()
+                    keyCount = keyStore.keys().size
                     onPauseOrDispose { }
                 }
 
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
 
                 when (screen) {
                     Screen.Home -> HomeScreen(
-                        hasKey = hasKey,
+                        keyCount = keyCount,
                         keyboardEnabled = keyboardEnabled,
                         keyboardSelected = keyboardSelected,
                         onOpenGeminiKey = { screen = Screen.GeminiKey },
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     Screen.GeminiKey -> GeminiKeyScreen(
                         keyStore = keyStore,
                         gemini = gemini,
-                        onKeyChanged = { hasKey = keyStore.hasKey() },
+                        onKeyChanged = { keyCount = keyStore.keys().size },
                         onBack = { screen = Screen.Home },
                     )
                     Screen.Translate -> TranslateScreen(

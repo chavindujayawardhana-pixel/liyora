@@ -52,10 +52,10 @@ fun TranslateScreen(
     var errorIsNotice by rememberSaveable { mutableStateOf(false) }
     var loading by remember { mutableStateOf(false) }
     var copied by remember { mutableStateOf(false) }
-    val apiKey = remember { keyStore.getKey() }
+    val hasKey = remember { keyStore.hasKey() }
 
     SubScreen(title = "Translate", onBack = onBack) {
-        if (apiKey == null) {
+        if (!hasKey) {
             Text("You need a Gemini key before you can translate.", style = MaterialTheme.typography.bodyLarge)
             Spacer(Modifier.height(12.dp))
             Button(onClick = onOpenGeminiKey, modifier = Modifier.fillMaxWidth()) { Text("Add Gemini key") }
@@ -80,7 +80,7 @@ fun TranslateScreen(
                 result = null
                 copied = false
                 scope.launch {
-                    when (val r = gemini.translate(apiKey, input.trim())) {
+                    when (val r = gemini.translate(keyStore, input.trim())) {
                         is GeminiResult.Success -> result = r.text
                         is GeminiResult.Failure -> {
                             error = r.error.message

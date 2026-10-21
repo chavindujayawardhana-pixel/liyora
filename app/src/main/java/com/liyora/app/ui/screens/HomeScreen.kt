@@ -50,7 +50,7 @@ import com.liyora.app.ui.theme.SuccessGreen
 
 @Composable
 fun HomeScreen(
-    hasKey: Boolean,
+    keyCount: Int,
     keyboardEnabled: Boolean,
     keyboardSelected: Boolean,
     onOpenGeminiKey: () -> Unit,
@@ -58,6 +58,7 @@ fun HomeScreen(
     onOpenTranslate: () -> Unit,
 ) {
     val context = LocalContext.current
+    val hasKey = keyCount > 0
     // The test text lives only in memory while this screen is open; it is never saved.
     var tryText by remember { mutableStateOf("") }
 
@@ -98,10 +99,14 @@ fun HomeScreen(
                 SetupStep(
                     number = 1,
                     title = "Add your Gemini key",
-                    detail = if (hasKey) "Connected" else "Liyora uses your own free key from Google.",
+                    detail = when (keyCount) {
+                        0 -> "Liyora uses your own free key from Google."
+                        1 -> "1 key saved"
+                        else -> "$keyCount keys saved"
+                    },
                     done = hasKey,
                 ) {
-                    OutlinedButton(onClick = onOpenGeminiKey) { Text(if (hasKey) "Change key" else "Add key") }
+                    OutlinedButton(onClick = onOpenGeminiKey) { Text(if (hasKey) "Manage keys" else "Add key") }
                 }
                 HorizontalDivider()
                 SetupStep(

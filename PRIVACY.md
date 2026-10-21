@@ -8,7 +8,7 @@ Liyora is a keyboard. Like any keyboard, the letters you tap go straight to the 
 
 ## Where your text goes
 
-When you tap λ, the text in the text box is sent to Google Gemini, using your own Gemini API key, to get the English translation. The same happens when you tap Translate inside the Liyora app. Nothing is sent at any other time. Liyora has no server of its own.
+When you tap λ, the text in the text box is sent to Google Gemini, using one of your own Gemini API keys, to get the English translation. The same happens when you tap Translate inside the Liyora app. Nothing is sent at any other time. Liyora has no server of its own.
 
 ## What Liyora stores
 
@@ -18,9 +18,9 @@ Nothing you type is stored. Liyora does not save, log, or share your text or the
 
 If you use a free Gemini key, Google may use the text you send to improve its products, so avoid translating private or sensitive text. Paid keys follow Google's paid terms.
 
-## Your API key
+## Your API keys
 
-Your Gemini API key is stored encrypted on your phone only, and is excluded from backups. It is sent only to Google Gemini, with each translation request.
+Your Gemini API keys are stored encrypted on your phone only, and are excluded from backups. A key is sent only to Google Gemini, with a translation request. If a key reaches its daily limit, Liyora notes that on your phone and uses your next saved key.
 
 ## No ads, analytics, or accounts
 
