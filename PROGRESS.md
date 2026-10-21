@@ -27,4 +27,4 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - [x] Multiple keys: KeyStore holds a list (encrypted, old single key migrated), add/remove/test with masked keys
 - [x] Quota error (HTTP 429 / RESOURCE_EXHAUSTED) marks the key until next midnight Pacific time and retries once with the next free key; all used up -> "All keys have reached their limit. Try again later."
 - [x] Key screen note about keys from the same Google project sharing one limit; Privacy updated
-- [ ] Signed release built and installed with adb
+- [x] Signed release built and installed with adb (phone 25028RN03A, "Success")
