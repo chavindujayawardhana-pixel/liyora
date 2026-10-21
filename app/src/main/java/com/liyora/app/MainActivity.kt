@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.liyora.app.data.GeminiClient
 import com.liyora.app.data.KeyStore
+import com.liyora.app.keyboard.KeyboardSetup
 import com.liyora.app.ui.screens.GeminiKeyScreen
 import com.liyora.app.ui.screens.HomeScreen
 import com.liyora.app.ui.screens.PrivacyScreen
@@ -25,6 +26,10 @@ import com.liyora.app.ui.theme.LiyoraTheme
 enum class Screen { Home, GeminiKey, Translate, Privacy }
 
 class MainActivity : ComponentActivity() {
+
+    private var keyboardEnabled by mutableStateOf(false)
+    private var keyboardSelected by mutableStateOf(false)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // The UI is always light, so keep dark system bar icons even in system dark mode.
@@ -50,6 +55,8 @@ class MainActivity : ComponentActivity() {
                 when (screen) {
                     Screen.Home -> HomeScreen(
                         hasKey = hasKey,
+                        keyboardEnabled = keyboardEnabled,
+                        keyboardSelected = keyboardSelected,
                         onOpenGeminiKey = { screen = Screen.GeminiKey },
                         onOpenPrivacy = { screen = Screen.Privacy },
                         onOpenTranslate = { screen = Screen.Translate },
@@ -70,5 +77,22 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    // Steps 2 and 3 change outside the app: in Settings (the activity resumes) or in the
+    // keyboard picker dialog (the activity only gets its window focus back).
+    override fun onResume() {
+        super.onResume()
+        refreshKeyboardState()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) refreshKeyboardState()
+    }
+
+    private fun refreshKeyboardState() {
+        keyboardEnabled = KeyboardSetup.isEnabled(this)
+        keyboardSelected = KeyboardSetup.isSelected(this)
     }
 }
