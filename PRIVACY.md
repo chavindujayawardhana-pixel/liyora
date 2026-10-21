@@ -1,6 +1,6 @@
 # Liyora Privacy Policy
 
-Liyora is a keyboard that translates Sinhala and Singlish into English. This page explains what happens to your text.
+Liyora is a keyboard that translates your text to English. This page explains what happens to your text.
 
 ## What Liyora reads
 

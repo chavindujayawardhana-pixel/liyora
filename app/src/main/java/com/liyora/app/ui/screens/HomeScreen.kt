@@ -84,7 +84,7 @@ fun HomeScreen(
                 Column {
                     Text("Liyora", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                     Text(
-                        "Sinhala and Singlish to English keyboard",
+                        "To English",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

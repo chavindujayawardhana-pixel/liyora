@@ -59,7 +59,7 @@ class TranslatePanel(
         }
         header.addView(text("λ Liyora", 15f, style.red, bold = true))
         header.addView(
-            text("Singlish to English", 12f, style.red).apply {
+            text("To English", 12f, style.red).apply {
                 background = style.rounded(style.chip, 10f)
                 setPadding(style.dp(8), style.dp(3), style.dp(8), style.dp(3))
             },

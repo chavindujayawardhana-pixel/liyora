@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 
 /** Keep this text identical to PRIVACY.md in the project root. */
 private val PRIVACY_INTRO =
-    "Liyora is a keyboard that translates Sinhala and Singlish into English. This page explains what " +
+    "Liyora is a keyboard that translates your text to English. This page explains what " +
         "happens to your text."
 
 private val PRIVACY_SECTIONS = listOf(
