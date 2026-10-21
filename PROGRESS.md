@@ -28,4 +28,4 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - [x] Quota error (HTTP 429 / RESOURCE_EXHAUSTED) marks the key until next midnight Pacific time and retries once with the next free key; all used up -> "All keys have reached their limit. Try again later."
 - [x] Key screen note about keys from the same Google project sharing one limit; Privacy updated
 - [x] Signed release built and installed with adb (phone 25028RN03A, "Success")
-- [x] Remaining Sinhala/Singlish UI text removed: empty-field message (keyboard), Home step 4 + "How to use" step 1, Translate screen input label. Gemini prompt and SPEC.md (1.0.0 spec) left as they are.
+- [x] Remaining Sinhala/Singlish UI text removed: empty-field message (keyboard), Home step 4 + "How to use" step 1, Translate screen input label. Gemini prompt and SPEC.md (1.0.0 spec) left as they are. Signed release installed with adb (Success).
