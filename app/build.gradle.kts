@@ -24,8 +24,8 @@ android {
         targetSdk = 36
         // Raise both for every release: versionCode by 1 each time (Android refuses to update to a
         // lower or equal code), versionName to what users see, e.g. "1.0.1" or "1.1.0".
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
     }
 
     signingConfigs {

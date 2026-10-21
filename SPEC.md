@@ -1,5 +1,7 @@
 ﻿# Liyora (ලියෝරා) - Android app
 
+> Note: this spec describes version 1.0.0 (Accessibility + floating bubble, tag v1.0.0-accessibility). From 1.1.0 Liyora is a keyboard (InputMethodService) and Accessibility is no longer used.
+
 ## Goal
 Translate Sinhala (Sinhala script or Singlish) text into natural, correct English.
 
