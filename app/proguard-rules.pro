@@ -1,7 +1,7 @@
 # Liyora R8 rules.
 #
-# Most of the app needs no rules: the activity and the AccessibilityService are kept through the
-# manifest, overlay views are created in code (not inflated from XML), and Gemini calls use
+# Most of the app needs no rules: the activity and the keyboard service are kept through the
+# manifest, keyboard views are created in code (not inflated from XML), and Gemini calls use
 # HttpURLConnection + org.json from the platform, with no reflection.
 
 # Tink (behind EncryptedSharedPreferences) references annotation classes that exist only at

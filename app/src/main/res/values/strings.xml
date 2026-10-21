@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">Liyora</string>
-    <string name="bubble_closed">Liyora bubble closed</string>
-    <string name="turn_off_for_app">Turn off for this app</string>
-    <string name="accessibility_description">Liyora shows a small bubble while you type, only in the apps you turn on in Works in. When you tap it, Liyora reads the text box and translates your Sinhala or Singlish into English with Gemini. Other apps and password fields are ignored, and your text is never stored.</string>
 </resources>
