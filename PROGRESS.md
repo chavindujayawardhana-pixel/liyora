@@ -31,11 +31,11 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - [x] Remaining Sinhala/Singlish UI text removed: empty-field message (keyboard), Home step 4 + "How to use" step 1, Translate screen input label. Gemini prompt and SPEC.md (1.0.0 spec) left as they are. Signed release installed with adb (Success).
 
 ## Going public on GitHub (v1.1.0)
-- [ ] STEP A – Rename screenshots in docs/screenshots
+- [x] STEP A – Rename screenshots in docs/screenshots (no "applied" image: photo_6255882624593236297_y.jpg is a second translate panel, left as is, not committed)
 - [ ] STEP B – Safety scan (files + full git history, .gitignore)
 - [ ] STEP C – README.md, docs/logo.png, keystore.properties.example
 - [ ] STEP D – LICENSE (MIT, 2026 Chavindu Jayawardana), PRIVACY.md check, remove old Accessibility mentions
 - [ ] STEP E – Merge keyboard into main, merge origin/main, push main + tags
 - [ ] STEP F – Signed APK in dist/, RELEASE_NOTES.md, tag v1.1.0, GitHub Release
 
-Next: STEP A.
+Next: STEP B (safety scan).
