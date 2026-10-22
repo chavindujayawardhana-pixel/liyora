@@ -29,3 +29,13 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - [x] Key screen note about keys from the same Google project sharing one limit; Privacy updated
 - [x] Signed release built and installed with adb (phone 25028RN03A, "Success")
 - [x] Remaining Sinhala/Singlish UI text removed: empty-field message (keyboard), Home step 4 + "How to use" step 1, Translate screen input label. Gemini prompt and SPEC.md (1.0.0 spec) left as they are. Signed release installed with adb (Success).
+
+## Going public on GitHub (v1.1.0)
+- [ ] STEP A – Rename screenshots in docs/screenshots
+- [ ] STEP B – Safety scan (files + full git history, .gitignore)
+- [ ] STEP C – README.md, docs/logo.png, keystore.properties.example
+- [ ] STEP D – LICENSE (MIT, 2026 Chavindu Jayawardana), PRIVACY.md check, remove old Accessibility mentions
+- [ ] STEP E – Merge keyboard into main, merge origin/main, push main + tags
+- [ ] STEP F – Signed APK in dist/, RELEASE_NOTES.md, tag v1.1.0, GitHub Release
+
+Next: STEP A.
