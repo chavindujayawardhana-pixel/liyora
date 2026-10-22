@@ -32,10 +32,10 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 
 ## Going public on GitHub (v1.1.0)
 - [x] STEP A – Rename screenshots in docs/screenshots (no "applied" image: photo_6255882624593236297_y.jpg is a second translate panel, left as is, not committed)
-- [x] STEP B – Safety scan: files clean; dist/ added to .gitignore; author email rewritten to the GitHub noreply address on all commits (backup mirror in D:My projectiyora-git-backup), tag v1.0.0-accessibility re-created, repo-local user.name/user.email set
-- [ ] STEP C – README.md, docs/logo.png, keystore.properties.example
+- [x] STEP B – Safety scan: files clean; dist/ added to .gitignore; author email rewritten to the GitHub noreply address on all commits (backup mirror in D:/My project/Liyora-git-backup), tag v1.0.0-accessibility re-created, repo-local user.name/user.email set
+- [x] STEP C – README.md, docs/logo.png (rendered from the launcher icon), translate2.jpg, keystore.properties.example with fake values
 - [ ] STEP D – LICENSE (MIT, 2026 Chavindu Jayawardana), PRIVACY.md check, remove old Accessibility mentions
 - [ ] STEP E – Merge keyboard into main, merge origin/main, push main + tags
 - [ ] STEP F – Signed APK in dist/, RELEASE_NOTES.md, tag v1.1.0, GitHub Release
 
-Next: STEP C (README).
+Next: STEP D (LICENSE, PRIVACY.md, Accessibility mentions).
