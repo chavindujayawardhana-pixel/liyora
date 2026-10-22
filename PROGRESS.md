@@ -25,4 +25,4 @@ Work happens on the `keyboard` branch. Version 1.0.0 is kept on `master` and tag
 - [ ] STEP E – Merge keyboard into main, merge origin/main, push main + tags
 - [ ] STEP F – Signed APK in dist/, RELEASE_NOTES.md, tag v1.1.0, GitHub Release
 
-Next: STEP E (merge keyboard into main, merge origin/main, push).
+Next: STEP E push (main merged with keyboard and origin/main; history scrubbed of the old email). Then STEP F.
