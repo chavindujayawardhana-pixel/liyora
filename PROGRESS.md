@@ -38,4 +38,4 @@ Work happens on the `keyboard` branch. `master` / tag `v1.0.0-accessibility` hol
 - [ ] STEP E – Merge keyboard into main, merge origin/main, push main + tags
 - [ ] STEP F – Signed APK in dist/, RELEASE_NOTES.md, tag v1.1.0, GitHub Release
 
-Next: STEP B (safety scan).
+Next: STEP B is waiting on the user: every commit has author/committer email the old email. Decide: keep, or rewrite history to a GitHub noreply address. Nothing pushed yet.
