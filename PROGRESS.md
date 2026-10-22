@@ -22,7 +22,7 @@ Work happens on the `keyboard` branch. Version 1.0.0 is kept on `master` and tag
 - [x] STEP B – Safety scan: files clean; dist/ added to .gitignore; author email rewritten to the GitHub noreply address on all commits (backup mirror in D:/My project/Liyora-git-backup), tag v1.0.0-accessibility re-created, repo-local user.name/user.email set
 - [x] STEP C – README.md, docs/logo.png (rendered from the launcher icon), translate2.jpg, keystore.properties.example with fake values
 - [x] STEP D – LICENSE comes from origin/main (MIT, Copyright (c) 2026 Chavindu Jayawardana); PRIVACY.md matches the in-app Privacy screen; SPEC.md (1.0.0 spec) removed, PROGRESS.md cleaned
-- [ ] STEP E – Merge keyboard into main, merge origin/main, push main + tags
+- [x] STEP E – main = keyboard + origin/main (LICENSE), pushed to origin with tag v1.0.0-accessibility
 - [ ] STEP F – Signed APK in dist/, RELEASE_NOTES.md, tag v1.1.0, GitHub Release
 
-Next: STEP E push (main merged with keyboard and origin/main; history scrubbed of the old email). Then STEP F.
+Next: STEP F (signed APK, dist/, release notes, tag v1.1.0, GitHub Release).
