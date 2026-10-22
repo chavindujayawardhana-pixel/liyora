@@ -16,3 +16,13 @@ keystore.properties
 
 # Release APK copies
 dist/
+
+# Secrets and build outputs that must never be committed
+.env
+.env.*
+google-services.json
+*.p12
+*.pem
+*.apk
+*.aab
+*.log

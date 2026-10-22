@@ -33,7 +33,7 @@ fun nextQuotaReset(now: Long = System.currentTimeMillis()): Long =
  * Holds the user's Gemini API keys, encrypted at rest with a key from the Android Keystore.
  * Keys are never logged and never leave the device except in the request header to Gemini.
  *
- * EncryptedSharedPreferences is deprecated upstream but still works and is what SPEC.md requires.
+ * EncryptedSharedPreferences is deprecated upstream but still works, and existing saved keys depend on it.
  */
 class KeyStore(context: Context) {
 

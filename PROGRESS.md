@@ -19,10 +19,15 @@ Work happens on the `keyboard` branch. Version 1.0.0 is kept on `master` and tag
 
 ## Going public on GitHub (v1.1.0)
 - [x] STEP A – Rename screenshots in docs/screenshots (no "applied" image; the second translate panel is translate2.jpg)
-- [x] STEP B – Safety scan: files clean; dist/ added to .gitignore; author email rewritten to the GitHub noreply address on all commits (backup mirror in D:/My project/Liyora-git-backup), tag v1.0.0-accessibility re-created, repo-local user.name/user.email set
+- [x] STEP B – Safety scan: files clean; dist/ added to .gitignore; author email rewritten to the GitHub noreply address on all commits (local mirror backup kept outside the repo), tag v1.0.0-accessibility re-created, repo-local user.name/user.email set
 - [x] STEP C – README.md, docs/logo.png (rendered from the launcher icon), translate2.jpg, keystore.properties.example with fake values
 - [x] STEP D – LICENSE comes from origin/main (MIT, Copyright (c) 2026 Chavindu Jayawardana); PRIVACY.md matches the in-app Privacy screen; SPEC.md (1.0.0 spec) removed, PROGRESS.md cleaned
 - [x] STEP E – main = keyboard + origin/main (LICENSE), pushed to origin with tag v1.0.0-accessibility
 - [x] STEP F – dist/Liyora-1.1.0.apk (signed v2, CN=Liyora, SHA-256 91d5f5a7dfbda18a0dbf3616e08c602a53cbe1ddbd05fdcec2bbb3efd933a69c), dist/RELEASE_NOTES.md, tag v1.1.0 pushed. gh is not installed, so the GitHub Release is not created yet
 
 Next: create the GitHub Release v1.1.0 by hand on github.com (attach dist/Liyora-1.1.0.apk, paste dist/RELEASE_NOTES.md).
+
+## Security and privacy audit (2026-10-22)
+- [x] Files + full history scanned: no keys, passwords, phone, address or personal email; commit emails are the GitHub noreply address
+- [x] Manifest, key storage, logging, password fields, release build and dependencies (OSV) checked
+- [x] .gitignore extended (.env, google-services.json, *.apk, *.aab, *.pem, *.p12, *.log); stale SPEC.md comment fixed
