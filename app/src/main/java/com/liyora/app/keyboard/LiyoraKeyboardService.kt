@@ -32,6 +32,16 @@ import kotlinx.coroutines.withContext
 /** Most characters read from a field before and after the cursor when the app gives no full text. */
 private const val MAX_FIELD_CHARS = 10_000
 
+/** Errors the user fixes in the Liyora app, so the panel offers an "Open Liyora" button. */
+private val FIX_IN_APP = setOf(
+    GeminiError.NO_KEY,
+    GeminiError.KEY_STORAGE,
+    GeminiError.INVALID_KEY,
+    GeminiError.KEY_REFUSED,
+    GeminiError.ACCOUNT,
+    GeminiError.ALL_KEYS_LIMIT,
+)
+
 /**
  * The Liyora keyboard. The field text is read only when the user taps λ, sent to Gemini with the
  * user's own key, and kept only in memory until the panel closes. Nothing is stored or logged.
@@ -158,14 +168,16 @@ class LiyoraKeyboardService : InputMethodService(), KeyboardView.Actions {
             show(PanelState.Message("Liyora does not translate password fields."))
             return
         }
-        val text = readFieldText(ic).trim()
+        // Some apps throw from these calls instead of returning null; treat that as an empty field.
+        val text = runCatching { readFieldText(ic) }.getOrDefault("").trim()
 
         translateJob?.cancel()
         show(PanelState.Loading)
         translateJob = scope.launch {
-            val hasKey = withContext(Dispatchers.IO) { runCatching { keyStore.hasKey() }.getOrDefault(false) }
+            val hasKey = withContext(Dispatchers.IO) { keyStore.hasKey() }
             if (!hasKey) {
-                show(PanelState.Message(GeminiError.NO_KEY.message, offerOpenApp = true))
+                val error = if (keyStore.isAvailable) GeminiError.NO_KEY else GeminiError.KEY_STORAGE
+                show(PanelState.Message(error.message, offerOpenApp = true))
                 return@launch
             }
             if (text.isEmpty()) {
@@ -184,8 +196,8 @@ class LiyoraKeyboardService : InputMethodService(), KeyboardView.Actions {
                 is GeminiResult.Success -> show(PanelState.Result(result.text))
                 is GeminiResult.Failure -> show(
                     PanelState.Message(
-                        result.error.message,
-                        offerOpenApp = result.error == GeminiError.INVALID_KEY || result.error == GeminiError.NO_KEY,
+                        result.message,
+                        offerOpenApp = result.error in FIX_IN_APP,
                     ),
                 )
             }
@@ -213,7 +225,7 @@ class LiyoraKeyboardService : InputMethodService(), KeyboardView.Actions {
         }
         ic.beginBatchEdit()
         if (!ic.performContextMenuAction(android.R.id.selectAll)) {
-            ic.setSelection(0, readFieldText(ic).length)
+            ic.setSelection(0, runCatching { readFieldText(ic) }.getOrDefault("").length)
         }
         ic.commitText(english, 1)
         ic.endBatchEdit()

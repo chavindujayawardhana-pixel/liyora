@@ -24,8 +24,8 @@ android {
         targetSdk = 36
         // Raise both for every release: versionCode by 1 each time (Android refuses to update to a
         // lower or equal code), versionName to what users see, e.g. "1.0.1" or "1.1.0".
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 3
+        versionName = "1.1.1"
     }
 
     signingConfigs {
@@ -69,4 +69,8 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.kotlinx.coroutines.android)
     debugImplementation(libs.androidx.ui.tooling)
+
+    testImplementation(libs.junit)
+    // The real org.json, because the Android one is only a stub in local unit tests.
+    testImplementation(libs.json)
 }

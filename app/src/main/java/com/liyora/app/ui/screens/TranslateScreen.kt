@@ -83,7 +83,7 @@ fun TranslateScreen(
                     when (val r = gemini.translate(keyStore, input.trim())) {
                         is GeminiResult.Success -> result = r.text
                         is GeminiResult.Failure -> {
-                            error = r.error.message
+                            error = r.message
                             errorIsNotice = r.error.isNotice
                         }
                     }

@@ -38,11 +38,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.liyora.app.data.AddKeyResult
+import com.liyora.app.data.AppSettings
 import com.liyora.app.data.GeminiClient
 import com.liyora.app.data.GeminiError
 import com.liyora.app.data.GeminiResult
 import com.liyora.app.data.KeyStore
 import com.liyora.app.data.SavedKey
+import com.liyora.app.data.cleanKey
 import com.liyora.app.ui.theme.SuccessGreen
 import kotlinx.coroutines.launch
 
@@ -64,23 +67,39 @@ fun GeminiKeyScreen(
     var visible by remember { mutableStateOf(false) }
     var busy by remember { mutableStateOf(false) }
     var keys by remember { mutableStateOf(keyStore.keys()) }
-    var status by remember { mutableStateOf<KeyStatus?>(null) }
+    var status by remember {
+        mutableStateOf(
+            when {
+                !keyStore.isAvailable -> KeyStatus(GeminiError.KEY_STORAGE.message, ok = false)
+                AppSettings(context).takeKeysWereReset() -> KeyStatus(
+                    "Your saved keys could not be read on this phone, so they were removed. Please add them again.",
+                    ok = false,
+                )
+                else -> null
+            },
+        )
+    }
 
     fun refresh() {
         keys = keyStore.keys()
         onKeyChanged()
     }
 
-    fun runTest(saved: SavedKey) {
+    /** Sends a tiny request with the key and shows exactly what Gemini said, in plain words. */
+    fun runCheck(saved: SavedKey) {
         busy = true
         status = null
         scope.launch {
-            val result = gemini.testKey(saved.key)
-            status = when (result) {
-                is GeminiResult.Success -> KeyStatus("Key ${saved.masked} works.", ok = true)
+            val number = keys.indexOfFirst { it.id == saved.id } + 1
+            val name = "Key $number (${saved.masked})"
+            status = when (val result = gemini.checkKey(saved)) {
+                is GeminiResult.Success -> {
+                    keyStore.clearExhausted(saved.id)
+                    KeyStatus("$name works. Model: ${result.model}.", ok = true)
+                }
                 is GeminiResult.Failure -> {
                     if (result.error == GeminiError.DAILY_LIMIT) keyStore.markExhausted(saved.id)
-                    KeyStatus("Key ${saved.masked}: ${result.error.message}", ok = false)
+                    KeyStatus("$name: ${result.message}", ok = false)
                 }
             }
             refresh()
@@ -143,7 +162,7 @@ fun GeminiKeyScreen(
                             null
                         },
                         enabled = !busy,
-                        onTest = { runTest(saved) },
+                        onCheck = { runCheck(saved) },
                         onRemove = {
                             keyStore.removeKey(saved.id)
                             status = KeyStatus("Key ${saved.masked} removed from this phone.", ok = true)
@@ -159,7 +178,7 @@ fun GeminiKeyScreen(
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
             value = input,
-            onValueChange = { input = it.trim(); status = null },
+            onValueChange = { input = cleanKey(it); status = null },
             label = { Text("Gemini API key") },
             singleLine = true,
             visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -169,7 +188,7 @@ fun GeminiKeyScreen(
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             TextButton(onClick = { visible = !visible }) { Text(if (visible) "Hide" else "Show") }
             TextButton(onClick = {
-                val pasted = readClipboardText(context)?.trim()
+                val pasted = readClipboardText(context)?.let(::cleanKey)
                 if (pasted.isNullOrEmpty()) {
                     status = KeyStatus("The clipboard is empty. Copy your key first.", ok = false)
                 } else {
@@ -182,14 +201,17 @@ fun GeminiKeyScreen(
         Button(
             enabled = !busy && input.isNotBlank(),
             onClick = {
-                if (keyStore.addKey(input)) {
-                    val added = keyStore.keys().last()
-                    input = ""
-                    visible = false
-                    refresh()
-                    runTest(added)
-                } else {
-                    status = KeyStatus("This key is already saved.", ok = false)
+                when (keyStore.addKey(input)) {
+                    AddKeyResult.ADDED -> {
+                        val added = keyStore.keys().last()
+                        input = ""
+                        visible = false
+                        refresh()
+                        runCheck(added)
+                    }
+                    AddKeyResult.DUPLICATE -> status = KeyStatus("This key is already saved.", ok = false)
+                    AddKeyResult.BAD_FORMAT -> status = KeyStatus(GeminiError.BAD_FORMAT.message, ok = false)
+                    AddKeyResult.STORAGE_ERROR -> status = KeyStatus(GeminiError.KEY_STORAGE.message, ok = false)
                 }
             },
             modifier = Modifier.fillMaxWidth().height(52.dp),
@@ -230,7 +252,7 @@ private fun SavedKeyRow(
     saved: SavedKey,
     resetText: String?,
     enabled: Boolean,
-    onTest: () -> Unit,
+    onCheck: () -> Unit,
     onRemove: () -> Unit,
 ) {
     Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 12.dp, bottom = 4.dp)) {
@@ -241,7 +263,7 @@ private fun SavedKeyRow(
             color = if (resetText == null) SuccessGreen else MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Row {
-            TextButton(enabled = enabled, onClick = onTest) { Text("Test") }
+            TextButton(enabled = enabled, onClick = onCheck) { Text("Check key") }
             TextButton(enabled = enabled, onClick = onRemove) { Text("Remove") }
         }
     }

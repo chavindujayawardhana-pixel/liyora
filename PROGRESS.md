@@ -31,3 +31,11 @@ Next: create the GitHub Release v1.1.0 by hand on github.com (attach dist/Liyora
 - [x] Files + full history scanned: no keys, passwords, phone, address or personal email; commit emails are the GitHub noreply address
 - [x] Manifest, key storage, logging, password fields, release build and dependencies (OSV) checked
 - [x] .gitignore extended (.env, google-services.json, *.apk, *.aab, *.pem, *.p12, *.log); stale SPEC.md comment fixed
+
+## 1.1.1: "Something went wrong" on other phones (2026-10-23)
+- [x] Causes found: gemini-2.5-flash is no longer offered to new projects (404/403 for new keys); invisible characters, spaces or line breaks in pasted keys made the request header invalid (exception -> "Something went wrong"); unknown 4xx answers, non-JSON answers and Keystore read failures all ended as UNKNOWN; per-minute 429s marked keys as used up for the day; no retry on 500/503/timeouts
+- [x] Model fallback: gemini-3.8-flash -> gemini-3.6-flash -> gemini-3.5-flash-lite (Free tier, stable); last working model per key kept in plain prefs (liyora_settings, by key id)
+- [x] Keys cleaned and format-checked before saving; old saved keys cleaned on read; KeyStore never throws and resets unreadable storage once
+- [x] Specific error messages; "Check key" button; unit tests (KeyFormatTest, GeminiResponsesTest)
+- [x] versionName 1.1.1, versionCode 3; dist/Liyora-1.1.1.apk signed with the same certificate as 1.1.0 (SHA-256 e5055fa0…8aa8)
+- [ ] GitHub Release v1.1.1 (gh not installed: create it by hand) and a new keys screenshot ("Test" is now "Check key")

@@ -10,7 +10,7 @@ A keyboard for Android that translates what you type into English.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-E5233B.svg)](LICENSE)
 [![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-3DDC84.svg?logo=android&logoColor=white)](#install)
-[![Version 1.1.0](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/chavindujayawardhana-pixel/liyora/releases/latest)
+[![Version 1.1.1](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/chavindujayawardhana-pixel/liyora/releases/latest)
 
 <a href="https://github.com/chavindujayawardhana-pixel/liyora/releases/latest"><img src="https://img.shields.io/badge/Download-APK-E5233B?style=for-the-badge&logo=android&logoColor=white" alt="Download APK"></a>
 &nbsp;
@@ -66,6 +66,10 @@ Liyora translates the **whole text in the field**, not just the last word. **Pas
     <td><b>🚫 No ads, analytics or accounts</b><br>No sign-up, no tracking, no ads.</td>
   </tr>
   <tr>
+    <td><b>🔁 Model fallback</b><br>If one Gemini model is not available for your key, Liyora tries the next free model and remembers the one that works.</td>
+    <td><b>🩺 Check key</b><br>One tap shows in plain words whether a key works, is invalid, reached its limit, or can't reach Gemini.</td>
+  </tr>
+  <tr>
     <td><b>☁️ No backend</b><br>The app talks only to Google Gemini, with your own key.</td>
     <td><b>🔐 Skips password fields</b><br>In a password field, λ shows a short note and sends nothing.</td>
   </tr>
@@ -76,7 +80,8 @@ Liyora translates the **whole text in the field**, not just the last word. **Pas
 > [!NOTE]
 > Liyora is **not on Google Play**. You install the APK from GitHub. Google Play Protect may show a warning for apps installed outside the Play Store.
 
-1. **Download** `Liyora-1.1.0.apk` from the [latest release](https://github.com/chavindujayawardhana-pixel/liyora/releases/latest) on your phone.
+1. **Download** `Liyora-1.1.1.apk` from the [latest release](https://github.com/chavindujayawardhana-pixel/liyora/releases/latest) on your phone.
+   Already have 1.1.0? Install 1.1.1 over it. Your keys stay saved.
 2. **Open it** and, when Android asks, allow installing apps from this source (your browser or file manager). Then tap Install.
 3. **Add a Gemini key.** Open Liyora, tap *Add key*, then *Get my key*. Sign in to [Google AI Studio](https://aistudio.google.com/apikey), create a free key, copy it, and paste it into Liyora.
 4. **Turn on the keyboard.** In Liyora, tap *Open settings* and turn on Liyora. Android shows a standard warning for every keyboard; tap OK.
@@ -84,9 +89,25 @@ Liyora translates the **whole text in the field**, not just the last word. **Pas
 
 ## Free Gemini key notes
 
-- **Limits are per Google project, not per key.** Keys from the same project share one limit. For more free translations per day, use keys from different Google accounts or projects.
+- **Limits are per Google project and per model, not per key.** Keys from the same project share one limit. For more free translations per day, use keys from different Google accounts or projects.
 - **Limits reset at midnight Pacific time.**
+- **Only a limit reached on every model counts as "limit reached".** A short per-minute limit only means "wait a minute".
 - **Free keys and privacy:** Google may use text sent with free keys to improve its products. Avoid translating private or sensitive text with a free key.
+
+## Troubleshooting
+
+Open Liyora, tap *Manage keys*, then **Check key** next to a key. Liyora sends a tiny test request and tells you what happened:
+
+| Result | What to do |
+|---|---|
+| **works** (with the model name) | Nothing. The key is fine. |
+| **not valid** | Copy the whole key again from Google AI Studio, or create a new one. |
+| **refused** | The key is restricted, turned off or reported as leaked. Create a new key. |
+| **today's free limit** | Wait until midnight Pacific time, or add a key from another Google account. |
+| **models not available** | Try again later, or check for a Liyora update. |
+| **not available in your country** | The Gemini API does not serve your region. Turn off any VPN. |
+| **no internet / could not reach Gemini** | Check Wi-Fi or mobile data, and that Liyora may use data in your phone's app settings. |
+| **secure connection failed** | Check that your phone's date and time are correct, or try another network. |
 
 ## Privacy
 
@@ -104,7 +125,7 @@ Full policy: **[PRIVACY.md](PRIVACY.md)**.
 | Language | Kotlin |
 | Keyboard | Android `InputMethodService` with a custom keyboard view |
 | App screens | Jetpack Compose, Material 3 |
-| Translation | Google Gemini API, model `gemini-2.5-flash` (REST) |
+| Translation | Google Gemini API (REST): `gemini-3.8-flash`, then `gemini-3.6-flash`, then `gemini-3.5-flash-lite` |
 | Key storage | `EncryptedSharedPreferences` (AndroidX Security) |
 | Android | minSdk 26 (Android 8.0), targetSdk 36 |
 
